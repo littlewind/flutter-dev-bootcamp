@@ -12,30 +12,18 @@ class MyApp extends StatelessWidget {
         backgroundColor: Colors.teal,
         body: SafeArea(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
-            verticalDirection: VerticalDirection.up,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Container(
-                color: Colors.white,
-                height: 100.0,
-                width: 50.0,
-                child: Text("Container 1"),
+              CircleAvatar(
+                radius: 50,
+                backgroundImage: AssetImage('images/avatar.jpg'),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                color: Colors.blue,
-                height: 100.0,
-                width: 100.0,
-                child: Text("Container 2"),
-              ),
-              Container(
-                color: Colors.red,
-                height: 100.0,
-                width: 100.0,
-                child: Text("Container 3"),
+              Text(
+                'Little Wind',
+                style: TextStyle(
+                  fontSize: 40,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
