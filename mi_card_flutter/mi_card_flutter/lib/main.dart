@@ -36,6 +36,60 @@ class MyApp extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              Container(
+                margin: EdgeInsets.symmetric(
+                  vertical: 10.0,
+                  horizontal: 25.0,
+                ),
+                padding: EdgeInsets.all(10.0),
+                color: Colors.white,
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.phone,
+                      color: Colors.teal,
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Text(
+                      '+84 123456321',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'SourceSansPro',
+                        color: Colors.teal.shade900,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(
+                  vertical: 10.0,
+                  horizontal: 25.0,
+                ),
+                padding: EdgeInsets.all(10.0),
+                color: Colors.white,
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.email,
+                      color: Colors.teal,
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Text(
+                      'flutter.dev@email.com',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'SourceSansPro',
+                        color: Colors.teal.shade900,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
