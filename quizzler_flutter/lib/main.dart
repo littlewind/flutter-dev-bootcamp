@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
+import 'quiz_brain.dart';
+
+QuizBrain quizBrain = QuizBrain();
 
 void main() => runApp(Quizzler());
 
@@ -25,6 +30,8 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  List<Widget> scoreKeeper = [];
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,7 +44,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'This is where the question text will go.',
+                quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -62,6 +69,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked true.
+                _checkAnswer(true);
               },
             ),
           ),
@@ -80,13 +88,50 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked false.
+                _checkAnswer(false);
               },
             ),
           ),
         ),
-        //TODO: Add a Row here as your score keeper
+        Container(
+          height: 24.0,
+          child: Row(
+            children: scoreKeeper,
+          ),
+        )
       ],
     );
+  }
+
+  _checkAnswer(bool userPickedAnswer) {
+    final correctAnswer = quizBrain.getCorrectAnswer();
+    if (userPickedAnswer == correctAnswer) {
+      scoreKeeper.add(Icon(
+        Icons.check,
+        color: Colors.blue,
+      ));
+      quizBrain.addScore();
+    } else {
+      scoreKeeper.add(Icon(
+        Icons.close,
+        color: Colors.red,
+      ));
+    }
+    setState(() {
+      if (quizBrain.isFinished()) {
+        Alert(context: context, type: AlertType.success, title: "Completed", desc: "Correct answer(s): ${quizBrain.getScore()}").show();
+        _resetQuiz();
+      } else {
+        quizBrain.nextQuestion();
+      }
+    });
+  }
+
+  _resetQuiz() {
+    quizBrain.resetQuiz();
+    setState(() {
+      scoreKeeper.clear();
+    });
   }
 }
 
