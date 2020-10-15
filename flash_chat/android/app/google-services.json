@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "443632990510",
+    "firebase_url": "https://flash-chat-9bd98.firebaseio.com",
+    "project_id": "flash-chat-9bd98",
+    "storage_bucket": "flash-chat-9bd98.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:443632990510:android:6301bdbc49eab741d062bf",
+        "android_client_info": {
+          "package_name": "com.littlewind.flash_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "443632990510-4r43ipnue6frhlr5mqmlf212pnncqesd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAt8UruSToybLId-zNu4ZhVzxhoeaH67XE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "443632990510-4r43ipnue6frhlr5mqmlf212pnncqesd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
