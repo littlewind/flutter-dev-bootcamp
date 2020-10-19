@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/components/rounded_button.dart';
 import 'package:flash_chat/constants.dart';
+import 'package:flash_chat/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -10,6 +12,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _auth = FirebaseAuth.instance;
+  String _email;
+  String _password;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,8 +39,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 48.0,
                 ),
                 TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  textAlign: TextAlign.center,
                   onChanged: (value) {
-                    //Do something with the user input.
+                    _email = value;
                   },
                   style: TextStyle(color: Colors.black),
                   decoration: kTextFieldDecoration,
@@ -43,8 +51,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 8.0,
                 ),
                 TextField(
+                  obscureText: true,
+                  textAlign: TextAlign.center,
                   onChanged: (value) {
-                    //Do something with the user input.
+                    _password = value;
                   },
                   style: TextStyle(color: Colors.black),
                   decoration: kTextFieldDecoration.copyWith(hintText: 'Enter your password'),
@@ -55,7 +65,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 RoundedButton(
                   title: 'Log In',
                   color: Colors.lightBlueAccent,
-                  onPressed: () {
+                  onPressed: () async {
+                    try {
+                      final userCredential = await _auth.signInWithEmailAndPassword(
+                          email: _email, password: _password);
+                      if (userCredential != null) {
+                        print('${userCredential.user.email} - ${userCredential.user.uid}');
+                        Navigator.pushNamedAndRemoveUntil(context, ChatScreen.id, (route) => false);
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
                   },
                 ),
               ],
