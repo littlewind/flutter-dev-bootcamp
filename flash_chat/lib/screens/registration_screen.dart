@@ -3,6 +3,7 @@ import 'package:flash_chat/components/rounded_button.dart';
 import 'package:flash_chat/constants.dart';
 import 'package:flash_chat/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String id = 'register';
@@ -16,73 +17,88 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String email;
   String password;
 
+  // manage state of modal progress HUD widget
+  bool _isInAsyncCall = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Hero(
-                  tag: 'logo',
-                  child: Container(
-                    height: 200.0,
-                    child: Image.asset('images/logo.png'),
+      body: ModalProgressHUD(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.0),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Hero(
+                    tag: 'logo',
+                    child: Container(
+                      height: 200.0,
+                      child: Image.asset('images/logo.png'),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 48.0,
-                ),
-                TextField(
-                  keyboardType: TextInputType.emailAddress,
-                  textAlign: TextAlign.center,
-                  onChanged: (value) {
-                    email = value;
-                  },
-                  style: TextStyle(color: Colors.black),
-                  decoration: kTextFieldDecoration,
-                ),
-                SizedBox(
-                  height: 8.0,
-                ),
-                TextField(
-                  obscureText: true,
-                  textAlign: TextAlign.center,
-                  onChanged: (value) {
-                    password = value;
-                  },
-                  style: TextStyle(color: Colors.black),
-                  decoration: kTextFieldDecoration.copyWith(
-                      hintText: 'Enter your password'),
-                ),
-                SizedBox(
-                  height: 24.0,
-                ),
-                RoundedButton(
-                  title: 'Register',
-                  color: Colors.blueAccent,
-                  onPressed: () async {
-                    try {
-                      final newUser =
-                          await _auth.createUserWithEmailAndPassword(
-                              email: email, password: password);
-                      if (newUser != null) {
-                        Navigator.pushNamedAndRemoveUntil(context, ChatScreen.id, (route) => false);
+                  SizedBox(
+                    height: 48.0,
+                  ),
+                  TextField(
+                    keyboardType: TextInputType.emailAddress,
+                    textAlign: TextAlign.center,
+                    onChanged: (value) {
+                      email = value;
+                    },
+                    style: TextStyle(color: Colors.black),
+                    decoration: kTextFieldDecoration,
+                  ),
+                  SizedBox(
+                    height: 8.0,
+                  ),
+                  TextField(
+                    obscureText: true,
+                    textAlign: TextAlign.center,
+                    onChanged: (value) {
+                      password = value;
+                    },
+                    style: TextStyle(color: Colors.black),
+                    decoration: kTextFieldDecoration.copyWith(
+                        hintText: 'Enter your password'),
+                  ),
+                  SizedBox(
+                    height: 24.0,
+                  ),
+                  RoundedButton(
+                    title: 'Register',
+                    color: Colors.blueAccent,
+                    onPressed: () async {
+                      setState(() {
+                        _isInAsyncCall = true;
+                      });
+                      try {
+                        final newUser =
+                            await _auth.createUserWithEmailAndPassword(
+                                email: email, password: password);
+                        if (newUser != null) {
+                          Navigator.pushNamedAndRemoveUntil(context, ChatScreen.id, (route) => false);
+                        }
+                      } catch (e) {
+                        print(e);
+                      } finally {
+                        setState(() {
+                          _isInAsyncCall = false;
+                        });
                       }
-                    } catch (e) {
-                      print(e);
-                    }
-                  },
-                ),
-              ],
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
+        inAsyncCall: _isInAsyncCall,
+        opacity: 0.5,
+        progressIndicator: CircularProgressIndicator(),
       ),
     );
   }
